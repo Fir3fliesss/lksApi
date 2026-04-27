@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Resources\V1;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/** @mixin \App\Models\Order */
+class OrderResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'total_price' => $this->total_price,
+            'shipping_address' => $this->shipping_address,
+            'items' => OrderItemResource::collection($this->whenLoaded('items')),
+            'created_at' => $this->created_at,
+        ];
+    }
+}
